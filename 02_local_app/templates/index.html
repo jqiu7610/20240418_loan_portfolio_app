@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>Loan Portfolio Visualization App</title>
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='shared/AdobeStock_92563011_Preview_square.PNG') }}">
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+	<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<body>
+	<header>
+        <img src="{{ url_for('static', filename='shared/AdobeStock_92563011_Preview.JPEG') }}" alt="Header" style="max-width: 100%;">
+    </header>
+
+	<div id="Top-of-Page" class="navbar">
+		<a href="#Active Status Accounts"><b>Active Status Accounts</b></a>
+		<a href="#LTD Accounts"><b>LTD Accounts</b></a>
+	</div>
+
+	<div class="container">
+
+		<section>
+			<h2>Smart Piggy's Loan Company Dashboard</h2>
+			<p>This project utilizes the German Credit Data from Kaggle to construct a loan portfolio. Analysis for the portfolio's characteristics are performed and responsive visual outputs are displayed below. Built using Python, Javascript, CSS, Flask, and hosted using AWS.</p>
+		</section>
+
+
+		<section id="Active Status Accounts" class="section">
+			<h2>Active Status Accounts</h2>
+		</section>
+
+		<section id="Active Status Accounts" class="section">
+			<p>Displayed below is a visual breakdown of active accounts vs terminated accounts. Data last pulled {{date_format}}</p>
+            <!--<div>
+                <img src="{{ url_for('static', filename='plt_cgl_v_cnl.png') }}" alt="Target-1" style="max-width: 100%;">
+            </div>-->
+            <div id='graphJSON_loan_status' class='chart'></div>
+
+			<br>
+			<br>
+			<br>
+			<br>
+
+			<p>Displayed below is a visual breakdown of active account volume vs terminated account volume. Data last pulled {{date_format}}</p>
+            <!--<div>
+                <img src="{{ url_for('static', filename='plt_cgl_v_cnl.png') }}" alt="Target-1" style="max-width: 100%;">
+            </div>-->
+            <div id='graphJSON_loan_volume' class='chart'></div>			 
+
+			<br>
+			<br>
+			<br>
+			<br>
+
+			<p>Displayed below is a visual breakdown of loan intents for <b>active</b> accounts. Data last pulled {{date_format}}</p>
+            <!--<div>
+                <img src="{{ url_for('static', filename='plt_cgl_v_cnl.png') }}" alt="Target-1" style="max-width: 100%;">
+            </div>-->
+            <div id='graphJSON_loan_intent_active' class='chart'></div>	
+
+			<br>
+			<br>
+			<br>
+			<br>
+
+			<p>Displayed below is a visual breakdown of average APR and credit default history on <b>active</b> accounts. Data last pulled {{date_format}}</p>
+            <!--<div>
+                <img src="{{ url_for('static', filename='plt_cgl_v_cnl.png') }}" alt="Target-1" style="max-width: 100%;">
+            </div>-->
+            <div id='graphJSON_apr_vs_default_history_active' class='chart'></div>	
+
+			<br>
+			<br>
+			<br>
+			<br>			
+
+			<p>Displayed below is a visual breakdown of average APR and the customer's income utilization for the loan on <b>active</b> accounts. Data last pulled {{date_format}}</p>
+            <!--<div>
+                <img src="{{ url_for('static', filename='plt_cgl_v_cnl.png') }}" alt="Target-1" style="max-width: 100%;">
+            </div>-->
+            <div id='graphJSON_income_util_active' class='chart'></div>	
+
+			<br>
+			<br>
+			<br>
+			<br>			
+
+
+			<p>Here is a tabular display of <b>active status</b> loan portfolio. The table can also be downloaded from this section. Data last pulled {{date_format}}</p>
+			
+			<div class="table-wrapper">
+                {{ df_credit_risk_active|safe }}
+            </div>
+            <a href="/download/df_credit_risk_active">Download as CSV</a>
+
+
+
+		</section>
+
+		<section id="LTD Accounts" class="section">
+			<h2>LTD Accounts</h2>
+		</section>
+
+		<section id="LTD Accounts" class="section">
+
+            <p>Displayed below is a visual representation of average APR vs loan tiers for loan portfolio <b>LTD</b>. Data last pulled {{date_format}}</p>
+            <!--<div>
+                <img src="{{ url_for('static', filename='plt_recovery_breakdown.png') }}" alt="Target-1" style="max-width: 100%;">
+            </div>-->
+            <div id='graphJSON_loan_tiers' class='chart'></div>   
+
+			<br>
+			<br>
+			<br>
+			<br>
+
+            <p>Displayed below is a visual representation of average APR vs income utilization for loan <b>LTD</b>. Data last pulled {{date_format}}</p>
+            <!--<div>
+                <img src="{{ url_for('static', filename='plt_recovery_breakdown.png') }}" alt="Target-1" style="max-width: 100%;">
+            </div>-->
+            <div id='graphJSON_income_util' class='chart'></div>   
+
+			<br>
+			<br>
+			<br>
+			<br>
+
+			<p>Here is a tabular display of <b>LTD loan accounts</b> in the loan portfolio. The table can also be downloaded from this section. Data last pulled {{date_format}}</p>
+			
+			<div class="table-wrapper">
+                {{ df_credit_risk|safe }}
+            </div>
+            <a href="/download/df_credit_risk">Download as CSV</a>
+
+		</section>
+
+		<section id="Bottom-of-Page" class="section">
+			<a href="#Top-of-Page">Back to Top</a>
+		</section>
+
+		<footer class="footer">
+            <p>&copy; <span id="currentYear"></span> James Qiu, 2024. All Rights Reserved.</p>
+        </footer>
+
+	</div>
+</body>
+
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+<script type="text/javascript" charset="utf8" src="{{ url_for('static', filename='js/script_all.js') }}"></script>
+
+<script type='text/javascript'>
+		$(document).ready(function() {
+			$('table.display').DataTable({
+	   			'order': [[0, 'desc']]
+			});
+		});
+
+	var graphs = {{graphJSON_loan_status | safe}};
+	Plotly.plot('graphJSON_loan_status',graphs,{});
+	function resizePlot_1() {
+		var plot = document.getElementById('graphJSON_loan_status');
+		var width = plot.offsetWidth;
+		var height = plot.offsetHeight;
+
+		// Update the plot layout based on the new width and height
+		Plotly.relayout(plot, {
+			width: width,
+			height: height
+		});
+	}
+
+	var graphs = {{graphJSON_loan_volume | safe}};
+	Plotly.plot('graphJSON_loan_volume',graphs,{});
+	function resizePlot_2() {
+		var plot = document.getElementById('graphJSON_loan_volume');
+		var width = plot.offsetWidth;
+		var height = plot.offsetHeight;
+
+		// Update the plot layout based on the new width and height
+		Plotly.relayout(plot, {
+			width: width,
+			height: height
+		});
+	}
+
+	var graphs = {{graphJSON_loan_intent_active | safe}};
+	Plotly.plot('graphJSON_loan_intent_active',graphs,{});
+	function resizePlot_3() {
+		var plot = document.getElementById('graphJSON_loan_intent_active');
+		var width = plot.offsetWidth;
+		var height = plot.offsetHeight;
+
+		// Update the plot layout based on the new width and height
+		Plotly.relayout(plot, {
+			width: width,
+			height: height
+		});
+	}
+
+	var graphs = {{graphJSON_apr_vs_default_history_active | safe}};
+	Plotly.plot('graphJSON_apr_vs_default_history_active',graphs,{});
+	function resizePlot_4() {
+		var plot = document.getElementById('graphJSON_apr_vs_default_history_active');
+		var width = plot.offsetWidth;
+		var height = plot.offsetHeight;
+
+		// Update the plot layout based on the new width and height
+		Plotly.relayout(plot, {
+			width: width,
+			height: height
+		});
+	}
+
+	var graphs = {{graphJSON_income_util_active | safe}};
+	Plotly.plot('graphJSON_income_util_active',graphs,{});
+	function resizePlot_5() {
+		var plot = document.getElementById('graphJSON_income_util_active');
+		var width = plot.offsetWidth;
+		var height = plot.offsetHeight;
+
+		// Update the plot layout based on the new width and height
+		Plotly.relayout(plot, {
+			width: width,
+			height: height
+		});
+	}
+
+	var graphs = {{graphJSON_loan_tiers | safe}};
+	Plotly.plot('graphJSON_loan_tiers',graphs,{});
+	function resizePlot_6() {
+		var plot = document.getElementById('graphJSON_loan_tiers');
+		var width = plot.offsetWidth;
+		var height = plot.offsetHeight;
+
+		// Update the plot layout based on the new width and height
+		Plotly.relayout(plot, {
+			width: width,
+			height: height
+		});
+	}
+
+	var graphs = {{graphJSON_income_util | safe}};
+	Plotly.plot('graphJSON_income_util',graphs,{});
+	function resizePlot_7() {
+		var plot = document.getElementById('graphJSON_income_util');
+		var width = plot.offsetWidth;
+		var height = plot.offsetHeight;
+
+		// Update the plot layout based on the new width and height
+		Plotly.relayout(plot, {
+			width: width,
+			height: height
+		});
+	}
+
+
+
+	// Event listener for window resize
+	window.addEventListener('resize', function() {
+		resizePlot_1();
+		resizePlot_2();
+		resizePlot_3();
+		resizePlot_4();
+		resizePlot_5();
+		resizePlot_6();
+		resizePlot_7();						
+	});
+
+	// Initial resizing of the plot on page load
+	window.addEventListener('load', function() {
+		resizePlot_1();
+		resizePlot_2();
+		resizePlot_3();
+		resizePlot_4();
+		resizePlot_5();
+		resizePlot_6();
+		resizePlot_7();	
+	});
+
+</script>
+
+</html>
