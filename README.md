@@ -2,6 +2,7 @@
 https://djuew4gr4n.us-west-2.awsapprunner.com/
 
 This project utilizes the German Credit Data from Kaggle to construct a loan portfolio. Analysis for the portfolio's characteristics are performed and responsive visual outputs are displayed below. Built using Python, Javascript, CSS, Flask, and hosted using AWS.
+The plotly renders will take some time to load in, so pardon the inconvenience.
 
 This app is capable of auto redeployment when data gets refreshed in the backend, if connected to SQL server through OBDC. For now, we will rely on the static German Credit Data gzip from Kaggle.
 
