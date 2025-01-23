@@ -3,18 +3,28 @@ from flask import Flask, render_template, request, Response
 from functions_app import *
 import json
 import pandas as pd
+import boto3
 import numpy as np
 from io import StringIO
 import plotly
 import plotly.express as px
-import json
 
+try:
+	from passwords import *
+	bool_debug = True
+except:
+	bool_debug = False
+	AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+	AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 # instantiate app
 application = Flask(__name__)
 
 # make a global variable
 dict_contents = {}
+
+# constants
+str_project = '20240418-loan-portfolio-app'
 
 @application.route('/download/<str_file_key>')
 def download(str_file_key):
@@ -41,6 +51,14 @@ def show_home_page():
 	# make global
 	global dict_contents
 
+	# create session
+	cls_session = boto3.Session(
+		aws_access_key_id=AWS_ACCESS_KEY_ID,
+		aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+	)
+	# initialize client
+	cls_client = cls_session.client('s3')
+
 	# get date info
 	today = pd.Timestamp.now()
 	date_file = today.strftime('%Y%m%d')
@@ -55,10 +73,14 @@ def show_home_page():
 	# # df_credit_risk_active
 	# #################################################################################
 	# read df all
-	print('Reading df...')
+	# originations today
 	str_filename = 'df_credit_risk_active.gzip'
-	str_local_path = f'./static/{str_filename}'
-	df = pd.read_parquet(str_local_path)
+	str_key = f'01_analysis/output/{str_filename}'
+	df = read_parquet_from_s3(
+		cls_client=cls_client, 
+		str_project=str_project,
+		str_key=str_key,
+	)
 
 	# assign
 	print('Assigning to dict_contents...')
@@ -158,10 +180,14 @@ def show_home_page():
 	# # df_credit_risk
 	# #################################################################################
 	# read df
-	print('Reading df...')
+	# originations today
 	str_filename = 'df_credit_risk.gzip'
-	str_local_path = f'./static/{str_filename}'
-	df = pd.read_parquet(str_local_path)
+	str_key = f'01_analysis/output/{str_filename}'
+	df = read_parquet_from_s3(
+		cls_client=cls_client, 
+		str_project=str_project,
+		str_key=str_key,
+	)
 
 	# assign
 	print('Assigning to dict_contents...')
@@ -263,4 +289,4 @@ def show_home_page():
 
 # run app		
 if __name__ == '__main__':
-	application.run(host="0.0.0.0", debug=True) # True for local testing
+	application.run(host="0.0.0.0", debug=False) # True for local testing
