@@ -3,7 +3,4 @@ pandas==1.2.4
 plotly==5.18.0
 pyarrow
 fastparquet
-
 boto3
-s3fs
-fsspec
