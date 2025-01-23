@@ -1,4 +1,5 @@
 # 20240418_loan_portfolio_app
+Please visit this URL to see the final product.
 https://hv7mam8jcr.us-west-2.awsapprunner.com
 
 This project utilizes the German Credit Data from Kaggle to construct a loan portfolio. Analysis for the portfolio's characteristics are performed and responsive visual outputs are displayed below. Built using Python, Javascript, CSS, Flask, and hosted using AWS.
