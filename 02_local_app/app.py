@@ -265,7 +265,7 @@ def show_home_page():
 	# make sortable table
 	#----------------------------------------------------------------------------------
 	print('Making sortable table...')
-	df_credit_risk = create_sortable_table(df=df)
+	df_credit_risk = df
 
 	#################################################################################
 	# SHOW HOME PAGE
