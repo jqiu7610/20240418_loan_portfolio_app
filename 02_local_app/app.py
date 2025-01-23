@@ -4,6 +4,7 @@ from functions_app import *
 import json
 import pandas as pd
 import boto3
+import os
 import numpy as np
 from io import StringIO
 import plotly
